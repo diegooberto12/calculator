@@ -6,4 +6,9 @@ FirstValue=null;
 SecondValue=null;
 operand=null
 Result=0
-console.log(Buttons);
+
+// functions
+
+function asignValue(element){
+    element.value
+}
