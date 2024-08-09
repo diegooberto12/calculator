@@ -5,7 +5,7 @@ const display = document.getElementById('display');
 FirstValue=null;
 SecondValue=null;
 operand=null;
-Result=0;
+Result=null;
 
 
 // functions
@@ -19,8 +19,8 @@ Buttons.forEach((element) => {
                 updateDisplay();
             }
             else{
-               display.innerText += element.innerText
-            console.log(`este es numero ${element.innerText}`) 
+               display.innerText += element.innerText;
+            // console.log(`este es numero ${element.innerText}`) 
             updateDisplay(); 
             }
             }
@@ -28,9 +28,17 @@ Buttons.forEach((element) => {
             operate(element);
             
         }           
-        else if (element.id == "equal"){
-            operate(element);
-        }
+        else if (element.id == "Equal"){
+            // operate(element);
+            if (FirstValue != null && operand != null){
+                if (element.id == "Equal"){
+                    SecondValue= Number(display.innerText);
+                    Result= DoOperation(FirstValue,operand,SecondValue).toFixed(2);
+                    display.innerText=Result;
+                    FirstValue = null;
+                    SecondValue = null;
+                    operand=null
+                    }}}
         else if (element.id == "Clear"){
             FirstValue = null;
             operand= null;
@@ -84,19 +92,20 @@ function operate(element){
                 // GiveValueToOperand(element);
                 operand = `${element.innerText}`
                 display.innerText="";
-            }
+            }}
 
-    else if(FirstValue != null && operand != null &&  SecondValue == null){
-        SecondValue= Number(display.innerText);
-        Result= DoOperation(FirstValue,operand,SecondValue);
-        display.innerText = `${Result}`;
-        FirstValue = Result
-        SecondValue = null;
-        perand=null
-
-    }
+    // else if(FirstValue != null && operand != null){
+    //     if (element.id == "equal"){
+    //     SecondValue= Number(display.innerText);
+    //     Result= DoOperation(FirstValue,operand,SecondValue);
+    //     display.innerText=Result;
+    //     FirstValue = null;
+    //     SecondValue = null;
+    //     operand=null
+    //     }
+    // }
         
-    }
+    
 }
 
 function GiveValueToOperand(element){
