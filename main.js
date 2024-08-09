@@ -14,8 +14,8 @@ Buttons.forEach((element) => {
     element.addEventListener("click",() => {
             
         if (element.id === "number"){
-            if(display.innerText == 0){
-                display.innerText = element.innerText;
+            if(display.innerText.startsWith("0.")){
+                display.innerText += element.innerText;
                 updateDisplay();
             }
             else{
@@ -24,52 +24,85 @@ Buttons.forEach((element) => {
             updateDisplay(); 
             }
             }
-        else if (element.id === "operator"){
-            
-            
+        else if (element.id === "operators"){
+            operate(element);
             
         }           
+        else if (element.id == "equal"){
+            operate(element);
+        }
+        else if (element.id == "Clear"){
+            FirstValue = null;
+            operand= null;
+            SecondValue = null;
+            Result=null;
+            display.innerText="";
+        }
+        else if (element.id == "dot"){
+            if (display.innerText.includes(".")){
+                
+                if (display.innerText.endsWith(".")){
+                    display.innerText= display.innerText.slice(0, -1);
+                }
+                else{display.innerText = display.innerText;}
+            }
+            else {display.innerText += "."};
+            }
+        else if (element.id == "minusPlus"){
+            if(display.innerText.includes("-")){
+                display.innerText = display.innerText.slice(1, display.innerText.length);
+            }
+            else {if (display.innerText == 0)
+                {display.innerText=`${display.innerText}`}
+                else {display.innerText=`-${display.innerText}`}
+            }
+        }
             }) 
             });
-
+// this function only work with number buttons
 function updateDisplay(){
 if (display.innerText.length > 7){
     display.innerText=display.innerText.slice(0,7);
 }
 else if (display.innerText.includes(".")){
-    display.innerText=display.innerText.slice(0,8);
+    display.innerText=display.innerText.slice(0,9);
 }
 else if(display.innerHTML.startsWith("-")){
-    display.innerText=display.innerText.slice(0,8);
+    display.innerText=display.innerText.slice(0,9);
 }
 else if (display.innerText.includes(".") && display.innerHTML.startsWith("-")) {
     display.innerText=display.innerText.slice(0,9);
 }
 };
 
-
+// this function only works with buttons with the id class of operand and with the button with the id class equal
 function operate(element){
-    if (FirstValue  == null && SecondValue == null){
+    // on the first time it takes the first input and assings it to FirstValue
+    if (FirstValue  === null && SecondValue === null){
             FirstValue=Number(display.innerText);
-            if (element.id == "operator"){
-                GiveValueToOperand(element);
+            if (element.id == "operators"){
+                // GiveValueToOperand(element);
+                operand = `${element.innerText}`
                 display.innerText="";
             }
-    else if(FirstValue != null && SecondValue == null && operand !=null){
+
+    else if(FirstValue != null && operand != null &&  SecondValue == null){
+        SecondValue= Number(display.innerText);
+        Result= DoOperation(FirstValue,operand,SecondValue);
+        display.innerText = `${Result}`;
+        FirstValue = Result
+        SecondValue = null;
+        perand=null
 
     }
         
     }
-    // else if (display.textContent == 0 || display.textContent == "0"){
-    //     FirstValue = 0
-    // }
-    // else {return false};
 }
 
 function GiveValueToOperand(element){
     switch (element){
         case element.innerText == "+":
-            return operand =  "+";
+            return operand = "+";
             break;
         case element.innerText == "-":
             return operand = "-";
@@ -82,9 +115,7 @@ function GiveValueToOperand(element){
             break;
     }
 };
- function Showresult(){
-    
- }
+
 
 function DoOperation(A , B , C){
  switch (B){
